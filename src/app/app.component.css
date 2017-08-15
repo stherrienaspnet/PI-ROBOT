@@ -1,0 +1,13 @@
+
+.gpio-device-id{
+  width: 90px;
+}
+
+.gpio-link{
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.gpio-control, .gpio-status{
+  text-align: center;
+}

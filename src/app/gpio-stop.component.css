@@ -1,0 +1,17 @@
+svg:hover {
+    fill: navy;
+}
+
+svg {
+    fill: #2196F3;
+}
+
+svg {
+    width: 12%;
+}
+
+@media screen and (max-width: 480px) {
+    svg {
+        width: 30%;
+    }
+}

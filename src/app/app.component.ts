@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import * as MQTT from 'mqtt';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  private client: MQTT.Client;
+
+  deviceId: string;
+
+  constructor() {
+
+  }
+
+  link(): void {
+    this.client = MQTT.connect('mqtt://test.mosquitto.org');
+
+    this.client.on('connect', () => {
+      console.log('connect');
+    });
+
+    this.client.on('close', () => {
+      console.log('close');
+    });
+
+  }
+
+  unlink(): void {
+    this.client.end();
+  }
+
+
 }
