@@ -4,7 +4,7 @@ import {EventEmitter} from 'events';
 import {ActionType, GPIOServicable, MessageType} from './gpio.model';
 
 export class GPIOService extends EventEmitter implements GPIOServicable {
-  private readonly SERVER_URL: string = 'ws://mosquitto.org:8080/';
+  private readonly SERVER_URL: string = 'wss://iot.eclipse.org:443/ws';
   private readonly REQUEST: string = 'request';
   private readonly RESPONSE: string = 'response';
 

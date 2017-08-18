@@ -10,7 +10,7 @@ import {ActionType, MessageType} from './gpio.model';
 })
 export class AppComponent implements OnInit {
   private readonly LINKING_MESSAGE: string = 'Linking device...';
-  private readonly LINKED_MESSAGE: string = 'Linked successfully';
+  private readonly LINKED_MESSAGE: string = 'Device linked';
 
   deviceId: string;
   isLinked: boolean;
