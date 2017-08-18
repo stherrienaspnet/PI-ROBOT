@@ -1,36 +1,51 @@
-import {Component} from '@angular/core';
-import * as MQTT from 'mqtt';
+import {Component, OnInit} from '@angular/core';
+import {GPIOService} from './gpio-service';
+import * as Promise from 'bluebird';
+import {ActionType, MessageType} from './gpio.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  private client: MQTT.Client;
+export class AppComponent implements OnInit {
+  private readonly LINKING_MESSAGE: string = 'Linking device...';
+  private readonly LINKED_MESSAGE: string = 'Linked successfully';
 
   deviceId: string;
+  isLinked: boolean;
+  isLinking:boolean;
 
-  constructor() {
+  linkMessage: string;
 
+  private onAction = (messageType: string, actionType: string) => {
+    if (messageType == MessageType.RESPONSE && actionType == ActionType.LINK_DEVICE) {
+      this.isLinked = true;
+      this.isLinking = false;
+    }
+  };
+
+  constructor(private gpioService: GPIOService) {
+    gpioService.addListener('onAction', this.onAction);
   }
 
-  link(): void {
-    this.client = MQTT.connect('mqtt://test.mosquitto.org');
+  ngOnInit(): void {
+    this.linkMessage = '';
+  }
 
-    this.client.on('connect', () => {
-      console.log('connect');
+  linkDevice(): void {
+    const linkPromise: Promise<boolean> = this.gpioService.linkDevice(this.deviceId);
+    this.linkMessage = this.LINKING_MESSAGE;
+    this.isLinking = true;
+    linkPromise.then((result) => {
+      this.linkMessage = this.LINKED_MESSAGE;
     });
+  }
 
-    this.client.on('close', () => {
-      console.log('close');
+  unlinkDevice(): void {
+    const unlinkPromise: Promise<boolean> = this.gpioService.unlinkDevice();
+    unlinkPromise.then((result) => {
+      this.isLinked = false;
     });
-
   }
-
-  unlink(): void {
-    this.client.end();
-  }
-
-
 }

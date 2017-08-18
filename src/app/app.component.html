@@ -1,23 +1,35 @@
 <div class="grid grid-pad">
-  <div class="gpio-link">
-    <span>GUID</span>
-    <input type="text" class="gpio-device-id" [(ngModel)] = "deviceId"/>
-    <button (click)="link()">Link</button>
-    <button (click)="unlink()">Unlink</button>
+  <div style="text-align: center">
+    <div style="display: inline-block; width: 166px;">
+      <div style="margin-bottom: 2px; height: 25px;">
+        <span style="float: left;">Robot Guid</span>
+        <button [hidden]="!isLinked" (click)="unlinkDevice()" style="float: right;">Unlink</button>
+        <button [hidden]="isLinked" (click)="linkDevice()" [disabled]="!deviceId" style="float: right;">Link</button>
+        <span style="float: none"></span>
+      </div>
+      <div class="gpio-link" [hidden]="isLinked || isLinking">
+        <input type="text" class="gpio-device-id" [(ngModel)]="deviceId" name="deviceId" />
+      </div>
+      <div [hidden]="!isLinked && !isLinking">
+        <img src="../assets/connected-icon.svg">
+        <span style="display: inline-block;vertical-align: top; margin-top: 6px; color:crimson">{{linkMessage}}</span>
+       </div>
+    </div>
   </div>
+
   <div class="gpio-status">
-    <gpio-status></gpio-status>
+    <gpio-status [enable]="isLinked"></gpio-status>
   </div>
   <div class="gpio-control">
-    <gpio-move direction="up"></gpio-move>
+    <gpio-move action="MOVE_FORWARD" [enable]="isLinked"></gpio-move>
   </div>
   <div class="gpio-control">
-    <gpio-move direction="left"></gpio-move>
-    <gpio-stop></gpio-stop>
-    <gpio-move direction="right"></gpio-move>
+    <gpio-move action="MOVE_LEFT"[enable]="isLinked"></gpio-move>
+    <gpio-stop [enable]="isLinked"></gpio-stop>
+    <gpio-move action="MOVE_RIGHT" [enable]="isLinked"></gpio-move>
   </div>
   <div class="gpio-control">
-    <gpio-move direction="down"></gpio-move>
+    <gpio-move action="MOVE_REVERSE" [enable]="isLinked"></gpio-move>
   </div>
 </div>
 

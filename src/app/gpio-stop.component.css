@@ -2,12 +2,12 @@ svg:hover {
     fill: navy;
 }
 
-svg {
-    fill: #2196F3;
+svg[disabled='true'] {
+  fill: lightgray;
 }
 
 svg {
-    width: 12%;
+    width: 10%;
 }
 
 @media screen and (max-width: 480px) {

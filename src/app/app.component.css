@@ -1,11 +1,15 @@
 
 .gpio-device-id{
-  width: 90px;
+  width: 166px;
+  margin-top: 4px;
 }
 
 .gpio-link{
   text-align: center;
   margin-bottom: 10px;
+  width: 166px;
+  left: auto;
+  right: auto;
 }
 
 .gpio-control, .gpio-status{

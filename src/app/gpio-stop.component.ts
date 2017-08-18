@@ -1,22 +1,33 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {ActionType, ColorType, MessageType} from './gpio.model';
+import {GPIOService} from './gpio-service';
 
 @Component({
-    selector: 'gpio-stop',
-    templateUrl: './gpio-stop.component.html',
-    styleUrls: ['./gpio-stop.component.css']
+  selector: 'gpio-stop',
+  templateUrl: './gpio-stop.component.html',
+  styleUrls: ['./gpio-stop.component.css']
 })
 export class GPIOStopComponent implements OnInit {
-    private readonly STOP: string = 'stop';
+  @Input() enable: boolean;
 
-    constructor() {
+  fillColor: string;
 
-    }
+  constructor(private gpioService: GPIOService) {
+    gpioService.addListener('onAction', this.onAction);
+  }
 
-    sendCommand(): void {
-        //this.gpioService.sendCommand(this.STOP);
-    }
+  private onAction = (messageType: string, actionType: string) => {
+    if (messageType != MessageType.RESPONSE) return;
+    const isActive: boolean = actionType == ActionType.STOP;
+    this.fillColor = isActive ? ColorType.ACTIVE_COLOR : ColorType.UNACTIVE_COLOR;
+  };
 
-    ngOnInit(): void {
+  commandDevice(): void {
+    if (this.enable == null || !this.enable) return;
+    this.gpioService.commandDevice(ActionType.STOP);
+  }
 
-    }
+  ngOnInit(): void {
+    this.fillColor = ColorType.UNACTIVE_COLOR;
+  }
 }

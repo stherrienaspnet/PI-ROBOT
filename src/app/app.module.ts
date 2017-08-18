@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {GPIOStatusComponent} from './gpio-status.component';
 import {GPIOStopComponent} from './gpio-stop.component';
 import {GPIOMoveComponent} from './gpio-move.component';
+import {GPIOService} from './gpio-service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import {GPIOMoveComponent} from './gpio-move.component';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [GPIOService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
